@@ -1,0 +1,14 @@
+{
+  "env": "testnet",
+  "main": "@modules/main",
+  "bundle": true,
+  "moduleDir": "modules",
+  "modules": {
+    "@modules/main": {
+      "path": "main"
+    }
+  },
+  "dependencies": {
+    "@scom/page-blog-list": "*"
+  }
+}

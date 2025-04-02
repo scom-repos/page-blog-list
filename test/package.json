@@ -1,0 +1,19 @@
+{
+  "name": "@scom/demo-page-blog-list",
+  "author": "IJS Technologies",
+  "version": "0.1.0",
+  "scripts": {
+    "cp:libs": "rm -rf ref && mkdir ref && cp ../package.json ref/package.json && cp -r ../dist ref/dist && cp -r ../pluginTypes ref/pluginTypes",
+    "build": "npm run cp:libs && rm -rf dist && npx @ijstech/compiler",
+    "serve": "npx @ijstech/cli serve 8080",
+    "test": "npm run build && npm run serve"
+  },
+  "keywords": [],
+  "license": "AGPL-3.0",
+  "devDependencies": {
+    "@ijstech/cli": "^0.1.26",
+    "@ijstech/compiler": "^0.1.18",
+    "@ijstech/components": "^0.1.35",
+    "@scom/page-blog-list": "file:./ref"
+  }
+}
