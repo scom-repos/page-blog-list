@@ -1,24 +1,24 @@
 {
-  "name": "@scom/page-blog-list",
-  "author": "IJS Technologies",
-  "version": "0.1.0",
-  "main": "dist/index.js",
-  "plugin": "dist",
-  "pluginTypes": "pluginTypes/index.d.ts",
-  "types": "pluginTypes/index.d.ts",
-  "scripts": {
-    "build": "rm -rf dist && npx @ijstech/compiler",
-    "serve": "npx @ijstech/cli serve 8080",
-    "test": "cd test && npm run test"
-  },
-  "keywords": [],
-  "license": "AGPL-3.0",
-  "dependencies": {
-    "@scom/page-blog": "^0.1.0"
-  },
-  "devDependencies": {
-    "@ijstech/cli": "^0.1.26",
-    "@ijstech/compiler": "^0.1.18",
-    "@ijstech/components": "^0.1.35"
-  }
+    "name": "@scom/page-blog-list",
+    "author": "IJS Technologies",
+    "version": "0.1.1",
+    "main": "dist/index.js",
+    "plugin": "dist",
+    "pluginTypes": "pluginTypes/index.d.ts",
+    "types": "pluginTypes/index.d.ts",
+    "scripts": {
+        "build": "rm -rf dist && npx @ijstech/compiler",
+        "serve": "npx @ijstech/cli serve 8080",
+        "test": "cd test && npm run test"
+    },
+    "keywords": [],
+    "license": "AGPL-3.0",
+    "dependencies": {
+        "@scom/page-blog": "^0.1.0"
+    },
+    "devDependencies": {
+        "@ijstech/cli": "^0.1.26",
+        "@ijstech/compiler": "^0.1.18",
+        "@ijstech/components": "^0.1.35"
+    }
 }
