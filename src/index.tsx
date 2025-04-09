@@ -11,8 +11,6 @@ import { Model } from './model/index';
 import { IBlogItem } from '@scom/page-blog';
 import { IBlogList } from './interface';
 
-const Theme = Styles.Theme.ThemeVars;
-
 declare global {
   namespace JSX {
     interface IntrinsicElements {
@@ -148,17 +146,17 @@ export default class ScomPageBlogList extends Module {
     })
   }
 
-  private updateStyle(name: string, value: any) {
-    value ? this.style.setProperty(name, value) : this.style.removeProperty(name);
-  }
+  // private updateStyle(name: string, value: any) {
+  //   value ? this.style.setProperty(name, value) : this.style.removeProperty(name);
+  // }
 
   private onUpdateTheme() {
-    this.updateStyle('--text-primary', this.model.tag?.title?.font?.color);
-    this.updateStyle('--background-main', this.model.tag?.background?.color);
-    this.updateStyle('--text-secondary', this.model.tag?.description?.font?.color);
-    this.updateStyle('--text-third', this.model.tag?.date?.font?.color);
-    this.updateStyle('--text-disabled', this.model.tag?.userName?.font?.color);
-    this.updateStyle('--text-hint', this.model.tag?.link?.font?.color);
+    // this.updateStyle('--text-primary', this.model.tag?.title?.font?.color);
+    // this.updateStyle('--background-main', this.model.tag?.background?.color);
+    // this.updateStyle('--text-secondary', this.model.tag?.description?.font?.color);
+    // this.updateStyle('--text-third', this.model.tag?.date?.font?.color);
+    // this.updateStyle('--text-disabled', this.model.tag?.userName?.font?.color);
+    // this.updateStyle('--text-hint', this.model.tag?.link?.font?.color);
   }
 
   getConfigurators() {

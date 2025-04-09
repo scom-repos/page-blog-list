@@ -89,7 +89,6 @@ define("@scom/page-blog-list/model/index.ts", ["require", "exports"], function (
 define("@scom/page-blog-list", ["require", "exports", "@ijstech/components", "@scom/page-blog-list/model/index.ts"], function (require, exports, components_1, index_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    const Theme = components_1.Styles.Theme.ThemeVars;
     let ScomPageBlogList = class ScomPageBlogList extends components_1.Module {
         constructor(parent, options) {
             super(parent, options);
@@ -118,16 +117,16 @@ define("@scom/page-blog-list", ["require", "exports", "@ijstech/components", "@s
                 lytItems.append(this.$render("i-page-blog", { data: product, tag: blogTag, stack: { grow: '1', shrink: '1', basis: "0%" } }));
             });
         }
-        updateStyle(name, value) {
-            value ? this.style.setProperty(name, value) : this.style.removeProperty(name);
-        }
+        // private updateStyle(name: string, value: any) {
+        //   value ? this.style.setProperty(name, value) : this.style.removeProperty(name);
+        // }
         onUpdateTheme() {
-            this.updateStyle('--text-primary', this.model.tag?.title?.font?.color);
-            this.updateStyle('--background-main', this.model.tag?.background?.color);
-            this.updateStyle('--text-secondary', this.model.tag?.description?.font?.color);
-            this.updateStyle('--text-third', this.model.tag?.date?.font?.color);
-            this.updateStyle('--text-disabled', this.model.tag?.userName?.font?.color);
-            this.updateStyle('--text-hint', this.model.tag?.link?.font?.color);
+            // this.updateStyle('--text-primary', this.model.tag?.title?.font?.color);
+            // this.updateStyle('--background-main', this.model.tag?.background?.color);
+            // this.updateStyle('--text-secondary', this.model.tag?.description?.font?.color);
+            // this.updateStyle('--text-third', this.model.tag?.date?.font?.color);
+            // this.updateStyle('--text-disabled', this.model.tag?.userName?.font?.color);
+            // this.updateStyle('--text-hint', this.model.tag?.link?.font?.color);
         }
         getConfigurators() {
             return this.model.getConfigurators();

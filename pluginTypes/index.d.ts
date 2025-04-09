@@ -77,7 +77,6 @@ declare module "@scom/page-blog-list" {
         private setData;
         private onUpdateBlock;
         private renderList;
-        private updateStyle;
         private onUpdateTheme;
         getConfigurators(): ({
             name: string;
