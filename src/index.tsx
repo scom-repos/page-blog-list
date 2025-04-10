@@ -5,7 +5,9 @@ import {
   customElements,
   ControlElement,
   customModule,
-  Container
+  Container,
+  StackLayout,
+  Control
 } from '@ijstech/components';
 import { Model } from './model/index';
 import { IBlogItem } from '@scom/page-blog';
@@ -120,44 +122,44 @@ export default class ScomPageBlogList extends Module {
       gap,
       background,
       maxWidth,
+      item: itemStyles,
       ...blogTag
     } = this.model.tag;
 
-    const lytItems = (
-      <i-hstack
+    const lytItems: StackLayout = (
+      <i-stack
         width='100%'
         padding={{ bottom: '1rem', left: '1rem', right: '1rem' }}
         gap={gap || '1rem'}
-        horizontalAlignment='center'
+        justifyContent='center'
         background={background}
         wrap='wrap'
-      ></i-hstack>
+      ></i-stack>
     )
     this.pnlCard.appendChild(lytItems)
 
     this.data.forEach((product: IBlogItem) => {
-      lytItems.append(
-        <i-page-blog
-          data={product}
-          tag={blogTag}
-          stack={{grow: '1', shrink: '1', basis: "0%"}}
-        />
-      )
+      const blog = <i-page-blog
+        data={product}
+        tag={blogTag}
+        display='block'
+        stack={{grow: '1', shrink: '1', basis: "0%"}}
+      />
+
+      if (itemStyles?.maxWidth !== undefined) blog.maxWidth = itemStyles.maxWidth;
+      if (itemStyles?.minWidth !== undefined) blog.minWidth = itemStyles.minWidth;
+      if (itemStyles?.width !== undefined) blog.width = itemStyles.width;
+
+      lytItems.append(blog);
     })
+
+    const length = this.data.length;
+    if (length && length % 2 !== 0) {
+      lytItems.append(<i-panel stack={{grow: '1', shrink: '1', basis: "0%"}}></i-panel>)
+    }
   }
 
-  // private updateStyle(name: string, value: any) {
-  //   value ? this.style.setProperty(name, value) : this.style.removeProperty(name);
-  // }
-
-  private onUpdateTheme() {
-    // this.updateStyle('--text-primary', this.model.tag?.title?.font?.color);
-    // this.updateStyle('--background-main', this.model.tag?.background?.color);
-    // this.updateStyle('--text-secondary', this.model.tag?.description?.font?.color);
-    // this.updateStyle('--text-third', this.model.tag?.date?.font?.color);
-    // this.updateStyle('--text-disabled', this.model.tag?.userName?.font?.color);
-    // this.updateStyle('--text-hint', this.model.tag?.link?.font?.color);
-  }
+  private onUpdateTheme() {}
 
   getConfigurators() {
     return this.model.getConfigurators();
