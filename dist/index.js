@@ -110,24 +110,25 @@ define("@scom/page-blog-list", ["require", "exports", "@ijstech/components", "@s
         }
         renderList() {
             this.pnlCard.clearInnerHTML();
-            const { gap, background, maxWidth, ...blogTag } = this.model.tag;
-            const lytItems = (this.$render("i-hstack", { width: '100%', padding: { bottom: '1rem', left: '1rem', right: '1rem' }, gap: gap || '1rem', horizontalAlignment: 'center', background: background, wrap: 'wrap' }));
+            const { gap, background, maxWidth, item: itemStyles, ...blogTag } = this.model.tag;
+            const lytItems = (this.$render("i-stack", { width: '100%', padding: { bottom: '1rem', left: '1rem', right: '1rem' }, gap: gap || '1rem', justifyContent: 'center', background: background, wrap: 'wrap' }));
             this.pnlCard.appendChild(lytItems);
             this.data.forEach((product) => {
-                lytItems.append(this.$render("i-page-blog", { data: product, tag: blogTag, stack: { grow: '1', shrink: '1', basis: "0%" } }));
+                const blog = this.$render("i-page-blog", { data: product, tag: blogTag, display: 'block', stack: { grow: '1', shrink: '1', basis: "0%" } });
+                if (itemStyles?.maxWidth !== undefined)
+                    blog.maxWidth = itemStyles.maxWidth;
+                if (itemStyles?.minWidth !== undefined)
+                    blog.minWidth = itemStyles.minWidth;
+                if (itemStyles?.width !== undefined)
+                    blog.width = itemStyles.width;
+                lytItems.append(blog);
             });
+            const length = this.data.length;
+            if (length && length % 2 !== 0) {
+                lytItems.append(this.$render("i-panel", { stack: { grow: '1', shrink: '1', basis: "0%" } }));
+            }
         }
-        // private updateStyle(name: string, value: any) {
-        //   value ? this.style.setProperty(name, value) : this.style.removeProperty(name);
-        // }
-        onUpdateTheme() {
-            // this.updateStyle('--text-primary', this.model.tag?.title?.font?.color);
-            // this.updateStyle('--background-main', this.model.tag?.background?.color);
-            // this.updateStyle('--text-secondary', this.model.tag?.description?.font?.color);
-            // this.updateStyle('--text-third', this.model.tag?.date?.font?.color);
-            // this.updateStyle('--text-disabled', this.model.tag?.userName?.font?.color);
-            // this.updateStyle('--text-hint', this.model.tag?.link?.font?.color);
-        }
+        onUpdateTheme() { }
         getConfigurators() {
             return this.model.getConfigurators();
         }

@@ -10,6 +10,11 @@ declare module "@scom/page-blog-list/interface.ts" {
             color?: string;
         };
         gap?: string | number;
+        item?: {
+            minWidth?: string | number;
+            maxWidth?: string | number;
+            width?: string | number;
+        };
     }
     export { IBlogList, ISettings };
 }

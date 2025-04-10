@@ -8,6 +8,11 @@ interface ISettings extends IBlogSettings {
   maxWidth?: string | number;
   background?: { color?: string };
   gap?: string | number;
+  item?: {
+    minWidth?: string | number;
+    maxWidth?: string | number;
+    width?: string | number;
+  }
 }
 
 export {
