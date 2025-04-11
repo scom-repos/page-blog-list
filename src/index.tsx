@@ -88,7 +88,8 @@ interface ScomPageBlogListElement extends ControlElement {
 })
 export default class ScomPageBlogList extends Module {
   private pnlBlock: Panel;
-  private pnlCard: Panel
+  private pnlCard: Panel;
+  private pnlStack: StackLayout;
 
   private model: Model;
 
@@ -123,19 +124,52 @@ export default class ScomPageBlogList extends Module {
       background,
       maxWidth,
       item: itemStyles,
+      columnsPerRow,
       ...blogTag
     } = this.model.tag;
 
-    const lytItems: StackLayout = (
-      <i-stack
+    const length = this.data.length;
+    const rows = columnsPerRow ? Math.ceil(length / columnsPerRow) : length;
+
+    const isValidNumber = (value: string | number) => {
+      return value && value !== 'auto' && value !== '100%';
+    }
+
+    let blogMaxWidth = isValidNumber(itemStyles?.maxWidth) ? itemStyles.maxWidth : undefined;
+    if (blogMaxWidth !== undefined && !isNaN(Number(blogMaxWidth))) blogMaxWidth = `${blogMaxWidth}px`;
+    let blogWidth = isValidNumber(itemStyles?.width) ? itemStyles.width : undefined;
+    if (blogWidth !== undefined && !isNaN(Number(blogWidth))) blogWidth = `${blogWidth}px`;
+
+    const repeatWidth = blogWidth || blogMaxWidth || '1fr';
+    const repeat = columnsPerRow ? `repeat(${rows}, ${repeatWidth})` : `repeat(${length}, ${repeatWidth})`;
+
+    const lytItems = (
+      <i-card-layout
         width='100%'
         padding={{ bottom: '1rem', left: '1rem', right: '1rem' }}
-        gap={gap || '1rem'}
+        gap={{column: gap || '1rem', row: gap || '1rem'}}
         justifyContent='center'
         background={background}
-        wrap='wrap'
-      ></i-stack>
+        cardMinWidth={itemStyles?.minWidth}
+        templateColumns={[repeat]}
+        mediaQueries={[
+          {
+            maxWidth: "767px",
+            properties: {
+              templateColumns: [`repeat(1, ${repeatWidth})`]
+            }
+          },
+          {
+            minWidth: "768px",
+            maxWidth: "1024px",
+            properties: {
+              templateColumns: [`repeat(2, ${repeatWidth})`]
+            }
+          }
+        ]}
+      ></i-card-layout>
     )
+
     this.pnlCard.appendChild(lytItems)
 
     this.data.forEach((product: IBlogItem) => {
@@ -152,11 +186,6 @@ export default class ScomPageBlogList extends Module {
 
       lytItems.append(blog);
     })
-
-    const length = this.data.length;
-    if (length && length % 2 !== 0) {
-      lytItems.append(<i-panel stack={{grow: '1', shrink: '1', basis: "0%"}}></i-panel>)
-    }
   }
 
   private onUpdateTheme() {}
