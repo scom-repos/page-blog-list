@@ -15,6 +15,7 @@ declare module "@scom/page-blog-list/interface.ts" {
             maxWidth?: string | number;
             width?: string | number;
         };
+        columnsPerRow?: number;
     }
     export { IBlogList, ISettings };
 }
@@ -75,6 +76,7 @@ declare module "@scom/page-blog-list" {
     export default class ScomPageBlogList extends Module {
         private pnlBlock;
         private pnlCard;
+        private pnlStack;
         private model;
         constructor(parent?: Container, options?: any);
         get data(): IBlogItem[];
