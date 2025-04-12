@@ -12,7 +12,8 @@ interface ISettings extends IBlogSettings {
     minWidth?: string | number;
     maxWidth?: string | number;
     width?: string | number;
-  }
+  },
+  columnsPerRow?: number;
 }
 
 export {
