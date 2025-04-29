@@ -177,6 +177,7 @@ export default class ScomPageBlogList extends Module {
         data={product}
         tag={blogTag}
         display='block'
+        designMode={this.designMode}
         stack={{grow: '1', shrink: '1', basis: "0%"}}
       />
 

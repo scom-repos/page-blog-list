@@ -141,7 +141,7 @@ define("@scom/page-blog-list", ["require", "exports", "@ijstech/components", "@s
                 ] }));
             this.pnlCard.appendChild(lytItems);
             this.data.forEach((product) => {
-                const blog = this.$render("i-page-blog", { data: product, tag: blogTag, display: 'block', stack: { grow: '1', shrink: '1', basis: "0%" } });
+                const blog = this.$render("i-page-blog", { data: product, tag: blogTag, display: 'block', designMode: this.designMode, stack: { grow: '1', shrink: '1', basis: "0%" } });
                 if (itemStyles?.maxWidth !== undefined)
                     blog.maxWidth = itemStyles.maxWidth;
                 if (itemStyles?.minWidth !== undefined)
