@@ -129,7 +129,7 @@ export default class ScomPageBlogList extends Module {
     } = this.model.tag;
 
     const length = this.data.length;
-    const rows = columnsPerRow ? Math.ceil(length / columnsPerRow) : length;
+    const validColumns = columnsPerRow && columnsPerRow > length ? length : columnsPerRow && columnsPerRow < 1 ? 1 : columnsPerRow;
 
     const isValidNumber = (value: string | number) => {
       return value && value !== 'auto' && value !== '100%';
@@ -139,9 +139,13 @@ export default class ScomPageBlogList extends Module {
     if (blogMaxWidth !== undefined && !isNaN(Number(blogMaxWidth))) blogMaxWidth = `${blogMaxWidth}px`;
     let blogWidth = isValidNumber(itemStyles?.width) ? itemStyles.width : undefined;
     if (blogWidth !== undefined && !isNaN(Number(blogWidth))) blogWidth = `${blogWidth}px`;
+    let blogMinWidth = isValidNumber(itemStyles?.minWidth) ? itemStyles.minWidth : undefined;
+    if (blogMinWidth !== undefined && !isNaN(Number(blogMinWidth))) blogMinWidth = `${blogMinWidth}px`;
 
-    const repeatWidth = blogWidth || blogMaxWidth || '1fr';
-    const repeat = columnsPerRow ? `repeat(${rows}, ${repeatWidth})` : `repeat(${length}, ${repeatWidth})`;
+    const repeatWidth = blogWidth || blogMinWidth || blogMaxWidth || '1fr';
+    const repeat = validColumns ?
+      `repeat(${validColumns}, ${repeatWidth})` :
+      `repeat(auto-fill, minmax(${blogMinWidth || blogWidth || 'auto'}, ${blogMaxWidth || blogWidth || '1fr'}))`;
 
     const lytItems = (
       <i-card-layout
