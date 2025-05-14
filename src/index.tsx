@@ -129,7 +129,7 @@ export default class ScomPageBlogList extends Module {
     } = this.model.tag;
 
     const length = this.data.length;
-    const rows = columnsPerRow ? Math.ceil(length / columnsPerRow) : length;
+    const validColumns = columnsPerRow && columnsPerRow > length ? length : columnsPerRow && columnsPerRow < 1 ? 1 : columnsPerRow;
 
     const isValidNumber = (value: string | number) => {
       return value && value !== 'auto' && value !== '100%';
@@ -139,9 +139,22 @@ export default class ScomPageBlogList extends Module {
     if (blogMaxWidth !== undefined && !isNaN(Number(blogMaxWidth))) blogMaxWidth = `${blogMaxWidth}px`;
     let blogWidth = isValidNumber(itemStyles?.width) ? itemStyles.width : undefined;
     if (blogWidth !== undefined && !isNaN(Number(blogWidth))) blogWidth = `${blogWidth}px`;
+    let blogMinWidth = isValidNumber(itemStyles?.minWidth) ? itemStyles.minWidth : undefined;
+    if (blogMinWidth !== undefined && !isNaN(Number(blogMinWidth))) blogMinWidth = `${blogMinWidth}px`;
 
-    const repeatWidth = blogWidth || blogMaxWidth || '1fr';
-    const repeat = columnsPerRow ? `repeat(${rows}, ${repeatWidth})` : `repeat(${length}, ${repeatWidth})`;
+    let repeat = '';
+    const repeatWidth = blogMaxWidth || blogWidth || '1fr';
+    
+    if (blogWidth || blogMinWidth || blogMaxWidth) {
+      if (validColumns) {
+        repeat = `repeat(${validColumns}, minmax(${blogMinWidth || blogWidth || 'auto'}, ${repeatWidth}))`;
+      } else {
+        repeat = `repeat(auto-fill, minmax(${blogMinWidth || blogWidth || 'auto'}, ${repeatWidth}))`;
+      }
+    }
+    else {
+      repeat = `repeat(${validColumns || length}, 1fr)`;
+    }
 
     const lytItems = (
       <i-card-layout
@@ -150,7 +163,6 @@ export default class ScomPageBlogList extends Module {
         gap={{column: gap || '1rem', row: gap || '1rem'}}
         justifyContent='center'
         background={background}
-        cardMinWidth={itemStyles?.minWidth}
         templateColumns={[repeat]}
         mediaQueries={[
           {
