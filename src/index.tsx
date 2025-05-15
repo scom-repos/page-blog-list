@@ -1,13 +1,10 @@
 import {
   Module,
-  Styles,
   Panel,
   customElements,
   ControlElement,
   customModule,
-  Container,
-  StackLayout,
-  Control
+  Container
 } from '@ijstech/components';
 import { Model } from './model/index';
 import { IBlogItem } from '@scom/page-blog';
@@ -37,50 +34,54 @@ interface ScomPageBlogListElement extends ControlElement {
   className: 'ScomPageBlogList',
   events: {},
   dataSchema: {
-    "type": "object",
-    "properties": {
-      "data": {
-        "type": "array",
-        "items": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      properties: {
+        title: {
+          type: 'string',
+          required: false
+        },
+        backgroundImageCid: {
+          type: 'string',
+          required: false
+        },
+        backgroundImageUrl: {
+          type: 'string',
+          required: false
+        },
+        description: {
+          type: 'string',
+          required: false
+        },
+        link: {
           "type": "object",
-          properties: {
-            title: {
-              type: 'string',
+          required: false,
+          "properties": {
+            "caption": {
+              "type": "string"
             },
-            backgroundImageCid: {
-              type: 'string'
-            },
-            backgroundImageUrl: {
-              type: 'string'
-            },
-            description: {
-              type: 'string'
-            },
-            link: {
-              "type": "object",
-              "properties": {
-                "caption": {
-                  "type": "string"
-                },
-                "url": {
-                  "type": "string"
-                }
-              }
-            },
-            date: {
-              format: 'date',
-              type: 'string'
-            },
-            userName: {
-              type: 'string'
-            },
-            avatar: {
-              type: 'string'
-            },
-            isExternal: {
-              type: 'boolean'
+            "url": {
+              "type": "string"
             }
           }
+        },
+        date: {
+          format: 'date',
+          type: 'string',
+          required: false
+        },
+        userName: {
+          type: 'string',
+          required: false
+        },
+        avatar: {
+          type: 'string',
+          required: false
+        },
+        isExternal: {
+          type: 'boolean',
+          required: false
         }
       }
     }
@@ -89,7 +90,6 @@ interface ScomPageBlogListElement extends ControlElement {
 export default class ScomPageBlogList extends Module {
   private pnlBlock: Panel;
   private pnlCard: Panel;
-  private pnlStack: StackLayout;
 
   private model: Model;
 
@@ -201,8 +201,6 @@ export default class ScomPageBlogList extends Module {
     })
   }
 
-  private onUpdateTheme() {}
-
   getConfigurators() {
     return this.model.getConfigurators();
   }
@@ -210,8 +208,7 @@ export default class ScomPageBlogList extends Module {
   init() {
     super.init();
       this.model = new Model({
-        onUpdateBlock: () => this.onUpdateBlock(),
-        onUpdateTheme: () => this.onUpdateTheme()
+        onUpdateBlock: this.onUpdateBlock.bind(this)
       });
     const data = this.getAttribute('data', true);
     if (data) this.setData({ data });
