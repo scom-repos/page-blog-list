@@ -3,7 +3,6 @@ import { ISettings, IBlogList } from "../interface";
 
 interface IOptions {
   onUpdateBlock: () => void;
-  onUpdateTheme: () => void;
 }
 
 export class Model {
@@ -18,6 +17,11 @@ export class Model {
     this._options = options;
   }
 
+  set tag(value: ISettings) {
+    this._tag = value;
+    this._options?.onUpdateBlock();
+  }
+
   get tag() {
     return this._tag || {};
   }
@@ -28,6 +32,7 @@ export class Model {
 
   set data(value: IBlogItem[]) {
     this._data.data = value || [];
+    this._options?.onUpdateBlock();
   }
 
   setData(data: IBlogList) {
@@ -52,7 +57,6 @@ export class Model {
       }
     }
 
-    this._options?.onUpdateTheme();
     this._options?.onUpdateBlock();
   }
 

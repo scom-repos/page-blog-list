@@ -21,6 +21,10 @@ define("@scom/page-blog-list/model/index.ts", ["require", "exports"], function (
             };
             this._options = options;
         }
+        set tag(value) {
+            this._tag = value;
+            this._options?.onUpdateBlock();
+        }
         get tag() {
             return this._tag || {};
         }
@@ -29,6 +33,7 @@ define("@scom/page-blog-list/model/index.ts", ["require", "exports"], function (
         }
         set data(value) {
             this._data.data = value || [];
+            this._options?.onUpdateBlock();
         }
         setData(data) {
             this._data = data;
@@ -50,7 +55,6 @@ define("@scom/page-blog-list/model/index.ts", ["require", "exports"], function (
                         this._tag[prop] = newValue[prop];
                 }
             }
-            this._options?.onUpdateTheme();
             this._options?.onUpdateBlock();
         }
         updateTag(type, value) {
@@ -165,15 +169,13 @@ define("@scom/page-blog-list", ["require", "exports", "@ijstech/components", "@s
                 lytItems.append(blog);
             });
         }
-        onUpdateTheme() { }
         getConfigurators() {
             return this.model.getConfigurators();
         }
         init() {
             super.init();
             this.model = new index_1.Model({
-                onUpdateBlock: () => this.onUpdateBlock(),
-                onUpdateTheme: () => this.onUpdateTheme()
+                onUpdateBlock: this.onUpdateBlock.bind(this)
             });
             const data = this.getAttribute('data', true);
             if (data)
@@ -200,50 +202,54 @@ define("@scom/page-blog-list", ["require", "exports", "@ijstech/components", "@s
             className: 'ScomPageBlogList',
             events: {},
             dataSchema: {
-                "type": "object",
-                "properties": {
-                    "data": {
-                        "type": "array",
-                        "items": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    properties: {
+                        title: {
+                            type: 'string',
+                            required: false
+                        },
+                        backgroundImageCid: {
+                            type: 'string',
+                            required: false
+                        },
+                        backgroundImageUrl: {
+                            type: 'string',
+                            required: false
+                        },
+                        description: {
+                            type: 'string',
+                            required: false
+                        },
+                        link: {
                             "type": "object",
-                            properties: {
-                                title: {
-                                    type: 'string',
+                            required: false,
+                            "properties": {
+                                "caption": {
+                                    "type": "string"
                                 },
-                                backgroundImageCid: {
-                                    type: 'string'
-                                },
-                                backgroundImageUrl: {
-                                    type: 'string'
-                                },
-                                description: {
-                                    type: 'string'
-                                },
-                                link: {
-                                    "type": "object",
-                                    "properties": {
-                                        "caption": {
-                                            "type": "string"
-                                        },
-                                        "url": {
-                                            "type": "string"
-                                        }
-                                    }
-                                },
-                                date: {
-                                    format: 'date',
-                                    type: 'string'
-                                },
-                                userName: {
-                                    type: 'string'
-                                },
-                                avatar: {
-                                    type: 'string'
-                                },
-                                isExternal: {
-                                    type: 'boolean'
+                                "url": {
+                                    "type": "string"
                                 }
                             }
+                        },
+                        date: {
+                            format: 'date',
+                            type: 'string',
+                            required: false
+                        },
+                        userName: {
+                            type: 'string',
+                            required: false
+                        },
+                        avatar: {
+                            type: 'string',
+                            required: false
+                        },
+                        isExternal: {
+                            type: 'boolean',
+                            required: false
                         }
                     }
                 }

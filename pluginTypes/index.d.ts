@@ -25,13 +25,13 @@ declare module "@scom/page-blog-list/model/index.ts" {
     import { ISettings, IBlogList } from "@scom/page-blog-list/interface.ts";
     interface IOptions {
         onUpdateBlock: () => void;
-        onUpdateTheme: () => void;
     }
     export class Model {
         private _data;
         private _options;
         private _tag;
         constructor(options: IOptions);
+        set tag(value: ISettings);
         get tag(): ISettings;
         get data(): IBlogItem[];
         set data(value: IBlogItem[]);
@@ -76,7 +76,6 @@ declare module "@scom/page-blog-list" {
     export default class ScomPageBlogList extends Module {
         private pnlBlock;
         private pnlCard;
-        private pnlStack;
         private model;
         constructor(parent?: Container, options?: any);
         get data(): IBlogItem[];
@@ -84,7 +83,6 @@ declare module "@scom/page-blog-list" {
         private setData;
         private onUpdateBlock;
         private renderList;
-        private onUpdateTheme;
         getConfigurators(): ({
             name: string;
             target: string;
