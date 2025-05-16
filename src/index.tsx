@@ -149,7 +149,7 @@ export default class ScomPageBlogList extends Module {
       if (validColumns) {
         repeat = `repeat(${validColumns}, minmax(${blogMinWidth || blogWidth || 'auto'}, ${repeatWidth}))`;
       } else {
-        repeat = `repeat(auto-fill, minmax(${blogMinWidth || blogWidth || 'auto'}, ${repeatWidth}))`;
+        repeat = `repeat(auto-fit, minmax(${blogMinWidth || blogWidth || 'auto'}, ${repeatWidth}))`;
       }
     }
     else {
@@ -215,6 +215,7 @@ export default class ScomPageBlogList extends Module {
 
     const tag = this.getAttribute('tag', true);
     if (tag) this.model.setTag(tag);
+    this.width = "100%";
   }
 
   render() {
